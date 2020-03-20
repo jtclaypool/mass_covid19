@@ -1,5 +1,5 @@
 # mass_covid19
-Updated March 18, 2020
+Updated March 20, 2020
 
 These are the current cases and relative increases by county of confirmed and presumptive cases (presumptive cases to be assessed as confirmed by the CDC) of Covid-19 in Massachusetts. For others wanting to do more with the data, see the data folder. I intend to add more demographics as detailed in the daily metrics time permitting. 
 
