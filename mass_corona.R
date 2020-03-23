@@ -14,7 +14,8 @@ previous <- c('https://www.mass.gov/files/documents/2020/03/11/covid-19-case-rep
               'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-19-2020-x-updated4pm/download',
               'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-20-2020/download',
               'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-21-2020/download',
-              'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-22-2020/download')
+              'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-22-2020/download',
+              'https://www.mass.gov/doc/covid-19-cases-in-massachusetts-as-of-march-23-2020/download')
 
 build_dat_table <- function(cdc,x=8,y=17,date){
   mass_gov <- pdf_text(cdc)
@@ -49,8 +50,8 @@ load('data/covid_cases.RData')
 #dat_0313 <- build_dat_table(previous[3],14,19,'3/13/2020')
 #dat_0316 <- build_dat_table(previous[4],8,17,'3/16/2020')
 #dat_0317 <- build_dat_table(previous[5],8,17,'3/17/2020')
-build_dat_table(previous[10],8,20,'3/22/2020')
-dat_current <- rbind.data.frame(dat_current,build_dat_table(previous[10],8,20,'3/22/2020'))
+build_dat_table(previous[11],8,20,'3/23/2020')
+dat_current <- rbind.data.frame(dat_current,build_dat_table(previous[11],8,20,'3/23/2020'))
 
 #dat_current <- rbind.data.frame(dat_0311,dat_0313,dat_0316,dat_0317)
 #source: https://www.massachusetts-demographics.com/counties_by_population
@@ -59,19 +60,19 @@ save(dat_current,file = 'data/covid_cases.RData')
 write.table(dat_current,'data/covid_cases.csv',sep = ',',col.names = T,row.names = F)
 
 #current <- 
-plot_usmap(data = dat_current[which(dat_current$date%in%as.Date("2020-03-22")),],values= 'covid.19',include=c("MA"),regions = 'counties',labels = T,aes(size=2))+
+plot_usmap(data = dat_current[which(dat_current$date%in%as.Date("2020-03-23")),],values= 'covid.19',include=c("MA"),regions = 'counties',labels = T,aes(size=2))+
   ggplot2::scale_fill_continuous("Number of Covid-19 Cases")+
   ggplot2::theme(legend.position = "top",
                  plot.margin = unit(c(0,0,0,0),"cm"))+
-  ggplot2::labs(title="Covid-19 Cases in Massachusetss March 22,2020")
+  ggplot2::labs(title="Covid-19 Cases in Massachusetss March 23,2020")
 #ggsave('plots/maps/mass_covid19_17032020.png',current,width = 70,height = 65,units = 'mm',scale = 10)
 #source: https://www.massachusetts-demographics.com/counties_by_population
 
 #percentage <- 
-plot_usmap(data = dat_current[which(dat_current$date%in%as.Date("2020-03-22")),],values= 'percentage',include=c("MA"),regions = 'counties',labels = T)+
+plot_usmap(data = dat_current[which(dat_current$date%in%as.Date("2020-03-23")),],values= 'percentage',include=c("MA"),regions = 'counties',labels = T)+
   ggplot2::theme(legend.position = "top",
                  plot.margin = unit(c(0,0,0,0),"cm"))+
-  ggplot2::labs(title="Percentage of Population with Covid-19 Cases in Massachusetss March 22,2020")+
+  ggplot2::labs(title="Percentage of Population with Covid-19 Cases in Massachusetss March 23,2020")+
   ggplot2::scale_fill_continuous("Percent of Population with Covid-19 Cases")
 cbPalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
 ggplot(dat_current,aes(x=date,y=(covid.19),fill=counties))+
@@ -92,8 +93,8 @@ ggplot(dat_current,aes(x=date,y=(covid.19),fill=counties))+
 
 
 mod <- lm(log(covid.19)~date:counties+counties,dat_current)
-tomorrow <- data.frame("counties"=unique(dat_current$counties),"date"=as.Date("2020-03-23"))
-predictions <- data.frame("counties"=unique(dat_current$counties),"date"=as.Date("2020-03-23"),"predict"=exp(predict(mod,tomorrow)))
+tomorrow <- data.frame("counties"=unique(dat_current$counties),"date"=as.Date("2020-03-24"))
+predictions <- data.frame("counties"=unique(dat_current$counties),"date"=as.Date("2020-03-24"),"predict"=exp(predict(mod,tomorrow)))
 predictions
 sum(predictions$predict)
 
